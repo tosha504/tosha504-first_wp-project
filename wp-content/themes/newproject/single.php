@@ -29,12 +29,15 @@ get_header();
 			<?php
 			$related_posts = get_field("blog_related_posts");
 			$home_url =  home_url( '/' ) ;
-			foreach ($related_posts as $related_post) { 
-			$href = $home_url . $related_post -> post_name
-			?>
-				<a href="<?= $href ?>"><?= $related_post -> post_title ?></a>
-			<?php }
-			?>
+			
+					
+				if($related_posts) {?>
+				<?php foreach ($related_posts as $related_post) {$href = $home_url . $related_post -> post_name ; ?>
+				
+				<a href="<?= $href ?>"><?= $related_post -> post_title ?></a> 
+				<?php } ?> <?php } ?>
+				
+			
 		</div>
 	</div>
 </section>
