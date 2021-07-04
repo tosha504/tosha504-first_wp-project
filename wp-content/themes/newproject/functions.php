@@ -10,6 +10,11 @@
       wp_enqueue_script('fancybox_theme_functions', $theme_uri . '/libs/fancybox.umd.js', [], 23, true);
     }
 
+     // slick
+    if ( is_page(59)) {
+      wp_enqueue_script('slick_theme_functions', $theme_uri . '/libs/slick.min.js', [], false, true);
+    }
+
     // Custom JS
     wp_enqueue_script('main_theme_functions', $theme_uri . '/index.js', [], "my ver", true);
     wp_localize_script('main_theme_functions','localizedObject',[
@@ -51,6 +56,42 @@
    * thumbnails
    */
   add_theme_support('post-thumbnails');
+
+  /**
+   * Add svg support
+   */
+ add_filter( 'wp_check_filetype_and_ext', function($data, $file, $filename, $mimes) {
+
+  global $wp_version;
+  if ( $wp_version !== '4.7.1' ) {
+     return $data;
+  }
+
+  $filetype = wp_check_filetype( $filename, $mimes );
+
+  return [
+      'ext'             => $filetype['ext'],
+      'type'            => $filetype['type'],
+      'proper_filename' => $data['proper_filename']
+  ];
+
+}, 10, 4 );
+
+function cc_mime_types( $mimes ){
+  $mimes['svg'] = 'image/svg';
+  return $mimes;
+}
+add_filter( 'upload_mimes', 'cc_mime_types' );
+
+function fix_svg() {
+  echo '<style type="text/css">
+        .attachment-266x266, .thumbnail img {
+             width: 100% !important;
+             height: auto !important;
+        }
+        </style>';
+}
+add_action( 'admin_head', 'fix_svg' );
 
   /**
    * multi-menu
@@ -124,38 +165,38 @@
   function creations()
   {
 
-    register_taxonomy('type', ['library'], [
-      'labels' => [
-        'name' => 'Type',
-        'all_items' => 'All types',
-        'add_new' => 'Add type',
-      ],
-      'public' => true,
-      'hierarchical' => true,
-      'rewrite' => true,
-      'show_admin_column' => true,
-    ]);
+    // register_taxonomy('type', ['library'], [
+    //   'labels' => [
+    //     'name' => 'Type',
+    //     'all_items' => 'All types',
+    //     'add_new' => 'Add type',
+    //   ],
+    //   'public' => true,
+    //   'hierarchical' => true,
+    //   'rewrite' => true,
+    //   'show_admin_column' => true,
+    // ]);
 
 
-    register_post_type('library', [
-      'labels' => [
-        'name' => 'Resource Library',
-        'all_items' => 'All resources',
-        'add_new' => 'Add resource',
+    register_post_type('services', [
+      'labels'        => [
+        'name'        => 'Services',
+        'all_items'   => 'All services',
+        'add_new'     => 'Add service',
       ],
-      'public' => true,
+      'public'             => true,
       'publicly_queryable' => true,
-      'show_ui' => true,
-      'show_in_menu' => true,
-      'query_var' => true,
-      'rewrite' => ['slug' => 'library'],
-      'capability_type' => 'post',
-      'has_archive' => 'library',
-      'hierarchical' => false,
-      'menu_position' => null,
-      'menu_icon' => 'dashicons-category',
-      'supports' => ['title', 'editor', 'thumbnail'],
-      'taxonomies' => ['type'],
+      'show_ui'            => true,
+      'show_in_menu'       => true,
+      'query_var'          => true,
+      'rewrite'            => ['slug' => 'services'],
+      'capability_type'    => 'post',
+      'has_archive'        => 'services',
+      'hierarchical'       => false,
+      'menu_position'      => null,
+      'menu_icon'          => 'dashicons-category',
+      'supports'           => ['title', 'editor', 'thumbnail'],
+      'taxonomies'         => ['type'],
     ]);
   }
 

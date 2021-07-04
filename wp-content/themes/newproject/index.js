@@ -70,8 +70,8 @@ jQuery(document).ready(function ($) {
     });
   });
 
+  //переключение табов
   const $title = $(".tabs__title");
-
   $title.on("click", function () {
     $(this)
       .addClass("active")
@@ -84,15 +84,30 @@ jQuery(document).ready(function ($) {
       .addClass("active");
   });
 
-  //   $(".gallery-slick__slider").slick({
-  //     arrows: true,
-  //     centerPadding: "60px",
-  //     slidesToShow: 3,
-  //     autoplay: true,
-  //     autoplaySpeed: 3000,
-  //   });
+  //Обработка контактной формы
 
-  //   $(".slick-arrow,.slick-prev").html("<");
+  const $hiddenInput = $("input[name=hidden-input]");
+  const pageTitle = $(".contact-us__page-title").text();
+  $hiddenInput.val(pageTitle);
 
-  //   $(".slick-next").html(">");
+  const wpcf7Elm = $(".wpcf7");
+  console.log(wpcf7Elm);
+
+  if (wpcf7Elm) {
+    wpcf7Elm.on("wpcf7invalid", function (event) {
+      console.log("wpcf7invalid 3342342");
+    });
+  }
+
+  $(".gallery__items").slick({
+    arrows: true,
+    slidesToShow: 3,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    lazyLoad: "undemand",
+  });
+
+  $(".slick-arrow,.slick-prev").html("<");
+
+  $(".slick-next").html(">");
 });

@@ -8,30 +8,38 @@
  */
 
 get_header();
+
+
 ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
 
-		<?php
-		while ( have_posts() ) :
-			the_post();
+<section class="single-page">
+	<div class="container">
+		<img src="<?= get_the_post_thumbnail_url() ?>" alt="">
+     
+      <h6 class="section-articles__title"><?= get_the_title() ?></h6>
+		<?= do_shortcode('[addtoany]') ?>
+		<div class="single-page__contetn">
+			<?php the_content();?>
+		</div>
 
-			get_template_part( 'template-parts/content', get_post_type() );
+		
 
-			the_post_navigation();
+		<div class="related-posts">
+			<?php
+			$related_posts = get_field("blog_related_posts");
+			$home_url =  home_url( '/' ) ;
+			foreach ($related_posts as $related_post) { 
+			$href = $home_url . $related_post -> post_name
+			?>
+				<a href="<?= $href ?>"><?= $related_post -> post_title ?></a>
+			<?php }
+			?>
+		</div>
+	</div>
+</section>
 
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
 
 <?php
-get_sidebar();
+
 get_footer();

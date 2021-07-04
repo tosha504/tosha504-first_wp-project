@@ -7,7 +7,7 @@
    */
   $trimWords = 4
 ?>
-<?php get_header() ?>
+<?php get_header()  ?>
   <section class="main-screen" style="background: url(<?= get_template_directory_uri()?>/img/main.jpg) no-repeat top/cover">
     <h1 class="main-screen__title">Title</h1>
     <p class="main-screen__subtitle">Subtitle</p>
@@ -20,7 +20,7 @@
      <div class="section-articles__box">
         <h2 class="global-title">Blog</h2>
 
-        <a href="" class="section-articles__all btn">All articles</a>
+        <a href="<?= get_page_link(113) ?>" class="section-articles__all btn">All articles</a>
      </div>
       
      <div class="section-articles__items">
@@ -154,6 +154,13 @@
 </section>
 
 <!-- <?= get_template_part( 'parts/tabs' ) ?> -->
+
+<section class="contact-us">
+    <div class="container">
+    <h2 class="global-title">Contact Us</h2>
+      <?= get_template_part('parts/contact-form') ?>
+    </div>
+</section>
 
 <?php get_footer(); ?>
 
